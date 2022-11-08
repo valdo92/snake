@@ -10,22 +10,24 @@ screen = pygame.display.set_mode([600, 600])
 clock = pygame.time.Clock()
 screen.fill([250,250,250])
 
-def serpent(a,b):
-        for x,y in [(a-30,b),(a-15,b),(a,b)]:
-            width = 30
-            height = 30
-            rect = [x,y, width, height]
-            red = 0
-            green = 255
-            blue = 0
-            color = [red, green, blue]
-            pygame.draw.rect(screen, color, rect)
-
 a,b=(70,400)
 c,d=(40,400)
 e,f=(10,400)
-snake=[[e,f],[c,d],[e,f]]
-serpent(a,b)    
+
+for x,y in [(a-60,b),(a-30,b),(a,b)]:
+    width = 30
+    height = 30
+         
+    rect = [x,y, width, height]
+    red = 0
+    green = 0
+    blue = 0
+    color = [red, green, blue]
+    pygame.draw.rect(screen, color, rect)
+
+
+snake=[[e,f],[c,d],[a,b]]
+    
 
 def draw_blanc(x,y):
     width = 30
@@ -36,6 +38,7 @@ def draw_blanc(x,y):
     blue = 255
     color = [red, green, blue]
     pygame.draw.rect(screen, color, rect)
+    pygame.display.update()
 
 def draw_noir(x,y): 
     width = 30
@@ -46,8 +49,22 @@ def draw_noir(x,y):
     blue = 0
     color = [red, green, blue]
     pygame.draw.rect(screen, color, rect)
+    pygame.display.update()
 
-direction=0
+direction=[1,0]
+
+def move(direction):
+    draw_blanc(snake[0][0],snake[0][1])
+    for i in range (len(snake)-1):
+        snake[i][0]=snake[i+1][0]
+        snake[i][1]=snake[i+1][1]
+
+    snake[len(snake)-1][0]+=direction[0]*30
+    snake[len(snake)-1][1]+=direction[1]*30
+
+    draw_noir(snake[len(snake)-1][0],snake[len(snake)-1][1])
+
+
 
 while True:
     for event in pygame.event.get():
@@ -56,63 +73,30 @@ while True:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                e,f=snake[0][0],snake[0][1]
-                draw_blanc(e,f)
-                snake[0]=snake[1]
-                snake[1]=snake[2]
-                snake[2][1]+=-30
 
                 #if a,b==e,f:
                     #loose je reviens sur moi même
-
-                a,b=snake[2][0],snake[2][1]
-                draw_noir(a,b)
-                direction=1
+                direction=[0,-1]
+                
+                pygame.display.update()
                 print('↑')
 
 
 
             elif event.key == pygame.K_DOWN:
-                e,f=snake[0][0],snake[0][1]
-                draw_blanc(e,f)
-                snake[0]=snake[1]
-                snake[1]=snake[2]
-                snake[2][1]+=30
+                direction = [0,1]
+                
 
-                #if a,b==e,f:
-                    #loose je reviens sur moi même
-
-                a,b=snake[2][0],snake[2][1]
-                draw_noir(a,b)
-                direction = 2
             elif event.key == pygame.K_RIGHT :
-                e,f=snake[0][0],snake[0][1]
-                draw_blanc(e,f)
-                snake[0]=snake[1]
-                snake[1]=snake[2]
-                snake[2][0]+=30
-
-                #if a,b==e,f:
-                    #loose je reviens sur moi même
-
-                a,b=snake[2][0],snake[2][1]
-                draw_noir(a,b)
-                direction = 0
+                direction = [1,0]
+                
+                pygame.display.update()
                 print('→')
 
             elif event.key == pygame.K_LEFT:
-                e,f=snake[0][0],snake[0][1]
-                draw_blanc(e,f)
-                snake[0]=snake[1]
-                snake[1]=snake[2]
-                snake[2][0]+=-30
-
-                #if a,b==e,f or a,b==c,d:
-                    #loose je reviens sur moi même
+                direction = [-1,0]
                 
-                a,b=snake[2][0],snake[2][1]
-                draw_noir(a,b)
-                direction = 3
+                pygame.display.update()
                 print('←')
  
  ### damier ###
@@ -132,66 +116,7 @@ while True:
  #               pygame.draw.rect(screen, color, rect)
 
 ### créer le serpent 
-    if direction == 0:
-            e,f=snake[0][0],snake[0][1]
-            draw_blanc(e,f)
-            snake[0]=snake[1]
-            snake[1]=snake[2]
-            snake[2][0]+=30
-
-                #if a,b==e,f:
-                    #loose je reviens sur moi même
-
-            a,b=snake[2][0],snake[2][1]
-            draw_noir(a,b)
-            direction = 0
-            print('→') 
-
-    elif direction == 1:
-            e,f=snake[0][0],snake[0][1]
-            draw_blanc(e,f)
-            snake[0]=snake[1]
-            snake[1]=snake[2]
-            snake[2][1]+=-30
-
-                #if a,b==e,f:
-                    #loose je reviens sur moi même
-
-            a,b=snake[2][0],snake[2][1]
-            draw_noir(a,b)
-            direction=1
-            print('↑')
-        
-    elif direction == 2:
-            e,f=snake[0][0],snake[0][1]
-            draw_blanc(e,f)
-            snake[0]=snake[1]
-            snake[1]=snake[2]
-            snake[2][1]+=30
-
-                #if a,b==e,f:
-                    #loose je reviens sur moi même
-
-            a,b=snake[2][0],snake[2][1]
-            draw_noir(a,b)
-            direction = 2
-
-    else :
-            e,f=snake[0][0],snake[0][1]
-            draw_blanc(e,f)
-            snake[0]=snake[1]
-            snake[1]=snake[2]
-            snake[2][0]+=-30
-
-                #if a,b==e,f or a,b==c,d:
-                    #loose je reviens sur moi même
-                
-            a,b=snake[2][0],snake[2][1]
-            draw_noir(a,b)
-            direction = 3
-            print('←')
-
-
+    move(direction)
     pygame.display.update()
     clock.tick(1)
 
