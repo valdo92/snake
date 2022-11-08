@@ -110,9 +110,11 @@ draw_rouge(fruit_x,fruit_y)
 
 while True:
     for event in pygame.event.get():
+
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
 
@@ -148,15 +150,20 @@ while True:
         fruit_x=np.random.randint(0,59)*20
         fruit_y=np.random.randint(0,29)*20
         draw_rouge(fruit_x,fruit_y)
-        snake.append([snake[len(snake)-1][0],snake[len(snake)-1][1]])
-        for i in range (1, len(snake)-1):
-            snake[i][0]=snake[i-1][0]
-            snake[i][1]=snake[i-1][1]
-        snake[0][0]-=direction[0]*20
-        snake[0][1]-=direction[1]*20
-        draw_blue(snake[0][0],snake[0][1])
+        a=snake[0][0]-direction[0]*20
+        b=snake[0][1]-direction[1]*20
+        snake = [[a,b]]+snake
+
+    elif snake[len(snake)-1][0]>1200 or snake[len(snake)-1][0]<0 or snake[len(snake)-1][1]>600 or snake[len(snake)-1][1]<0 :
+        pygame.quit()
+        sys.exit()
+
+    for j in range (len(snake)-1):
+        if snake[j][0]==snake[len(snake)-1][0] and snake[j][1]==snake[len(snake)-1][1]:
+            pygame.quit()
+            sys.exit()
 
     pygame.display.update()
-    clock.tick(3)
+    clock.tick(6)
 
 
