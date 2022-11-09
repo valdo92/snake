@@ -191,9 +191,9 @@ def snake_die():
     global snake
 
     if (
-        snake[len(snake) - 1][0] > 1200
+        snake[len(snake) - 1][0] > 1199
         or snake[len(snake) - 1][0] < 0
-        or snake[len(snake) - 1][1] > 600
+        or snake[len(snake) - 1][1] > 599
         or snake[len(snake) - 1][1] < 0
     ):
         exit()
